@@ -15,8 +15,8 @@ public class FilmQueryApp {
 
   public static void main(String[] args) throws SQLException {
     FilmQueryApp app = new FilmQueryApp();
-    app.test();
-//    app.launch();
+//    app.test();
+    app.launch();
   }
 
   private void test() throws SQLException {
@@ -39,7 +39,10 @@ public class FilmQueryApp {
   }
 
   private void startUserInterface(Scanner input) {
-    
+    System.out.println("Please choose an option: \n"
+    		+ "1) Look up film by id\n"
+    		+ "2) Look up filme by keyword search\n"
+    		+ "3) Exit");
   }
 
 }
