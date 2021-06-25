@@ -1,6 +1,7 @@
 package com.skilldistillery.filmquery.app;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -19,10 +20,14 @@ public class FilmQueryApp {
   }
 
   private void test() throws SQLException {
-//    Film film = db.findFilmById(1);
-//    System.out.println(film);
-    Actor actor = db.findActorById(1);
-    System.out.println(actor);
+    Film film = db.findFilmById(1);
+    System.out.println(film);
+//    Actor actor = db.findActorById(1);
+//    System.out.println(actor);
+//    List<Actor> actorList = db.findActorsByFilmId(1);
+//    for (Actor actor : actorList) {
+//		System.out.println(actor);
+//	}
   }
 
   private void launch() {

@@ -1,5 +1,7 @@
 package com.skilldistillery.filmquery.entities;
 
+import java.util.List;
+
 public class Film {
 	private int iD;
 	private String title;
@@ -12,6 +14,7 @@ public class Film {
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
+	private List<Actor> actorList;
 	
 	
 	
@@ -19,7 +22,8 @@ public class Film {
 	}
 
 	public Film(int iD, String title, String description, Integer releaseYear, int languageId, int rentalDuration,
-			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures) {
+			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
+			List<Actor> actorList) {
 		super();
 		this.iD = iD;
 		this.title = title;
@@ -32,8 +36,13 @@ public class Film {
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
+		this.actorList = actorList;
 	}
 
+
+
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -59,10 +68,12 @@ public class Film {
 		builder.append(rating);
 		builder.append(", specialFeatures=");
 		builder.append(specialFeatures);
+		builder.append(", actorList=");
+		builder.append(actorList);
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	public int getiD() {
 		return iD;
 	}
@@ -129,12 +140,19 @@ public class Film {
 	public void setSpecialFeatures(String specialFeatures) {
 		this.specialFeatures = specialFeatures;
 	}
+	public List<Actor> getActorList() {
+		return actorList;
+	}
+	public void setActorList(List<Actor> actorList) {
+		this.actorList = actorList;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + iD;
+		result = prime * result + languageId;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -150,6 +168,8 @@ public class Film {
 		Film other = (Film) obj;
 		if (iD != other.iD)
 			return false;
+		if (languageId != other.languageId)
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -157,6 +177,8 @@ public class Film {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 	
