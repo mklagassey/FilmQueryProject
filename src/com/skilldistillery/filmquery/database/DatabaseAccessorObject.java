@@ -28,7 +28,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
 		Connection conn = DriverManager.getConnection(URL, user, pass);
-		Film film = new Film();
+		Film film = null;
 		
 		List<Actor> aL = findActorsByFilmId(filmId);
 
@@ -44,6 +44,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		// CAN USE NAMES OR COLUMN NUMBERS AS PARAMS OF getString()
 		while (rs.next()) {
+			film = new Film();
 			film.setiD(rs.getInt("id"));
 			film.setDescription(rs.getString("description"));
 			film.setLanguageId(rs.getInt("language_id"));

@@ -20,7 +20,7 @@ public class FilmQueryApp {
 	}
 
 	private void test() throws SQLException {
-		Film film = db.findFilmById(1);
+		Film film = db.findFilmById(0);
 		System.out.println(film);
 //    Actor actor = db.findActorById(1);
 //    System.out.println(actor);
@@ -44,7 +44,7 @@ public class FilmQueryApp {
 			
 		int userChoice;
 		System.out.println("Please choose an option: \n" + "1) Look up film by id\n"
-				+ "2) Look up filme by keyword search\n" + "3) Exit");
+				+ "2) Look up film by keyword search\n" + "3) Exit");
 
 		userChoice = input.nextInt();
 
@@ -73,7 +73,7 @@ public class FilmQueryApp {
 	
 
 	private void displayFilm(Film f) {
-		if (f.getTitle() != null) {
+		if (f != null) {
 			System.out.println(f.getTitle() + " " + f.getReleaseYear() + " " + f.getRating() + " " + f.getDescription());
 			
 		} else {
