@@ -54,14 +54,14 @@ public class FilmQueryApp {
 				System.out.println("Please enter film's unique ID # -----");
 				int idNum = input.nextInt();
 				Film film = db.findFilmById(idNum);
-				displayFilm(film);
+				displayFilm(film, input);
 				break;
 			case 2:
 				System.out.println("Please enter your search criteria ------");
 				String searchFor = input.next();
 				List<Film> foundFilms = db.findFilmsBySearchString(searchFor);
 				for (Film film2 : foundFilms) {
-					displayFilm(film2);
+					displayFilm(film2, input);
 				}
 				break;
 			case 3:
@@ -77,7 +77,9 @@ public class FilmQueryApp {
 
 	}
 
-	private void displayFilm(Film f) {
+	private void displayFilm(Film f, Scanner in) {
+		boolean keepGoing = true;
+		
 		System.out.println();
 		if (f != null) {
 			System.out.println("TITLE: " + f.getTitle() + "\n" + "LANGUAGE: " + f.getLanguageName() + " " + "RELEASED: "
@@ -93,9 +95,25 @@ public class FilmQueryApp {
 					System.out.println();
 				}
 			}
+			
 		} else {
 			System.out.println("Sorry, that film does not appear in our database. Please try again.");
 		}
+		while (keepGoing) {
+			System.out.println("Would you like to:\n"
+					+ "1) See film details\n"
+					+ "2) Return to main menu");
+			int choice = in.nextInt();
+			
+			if (choice == 1) {
+				System.out.println(f);
+			} else if (choice == 2) {
+				keepGoing = false;
+			} else {
+				System.out.println("Invalid number, please choose either 1 or 2.");
+			}
+		
+		};
 	}
 
 }
