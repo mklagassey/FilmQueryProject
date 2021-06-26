@@ -29,7 +29,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public Film findFilmById(int filmId) throws SQLException {
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		Film film = null;
-		
+
 		List<Actor> aL = findActorsByFilmId(filmId);
 
 		// THE COLUMNS AFTER SELECT ARE THE ONLY ONES WE CAN USE LATER, TRY * TO GET ALL
@@ -39,8 +39,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		// THE NUMBER IS THE INDEX OF THE ? TO REPLACE WITH THE SECOND PARAM
 		stmt.setInt(1, filmId);
 		ResultSet rs = stmt.executeQuery();
-
-		System.out.println();
 
 		// CAN USE NAMES OR COLUMN NUMBERS AS PARAMS OF getString()
 		while (rs.next()) {
@@ -56,6 +54,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setReplacementCost(rs.getDouble("replacement_cost"));
 			film.setSpecialFeatures(rs.getString("special_features"));
 			film.setTitle(rs.getString("title"));
+			film.setLanguageName(findLanguageById(film.getLanguageId()));
 			film.setActorList(aL);
 		}
 		rs.close();
@@ -114,6 +113,67 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return actorList;
 
+	}
+
+	@Override
+	public List<Film> findFilmsBySearchString(String searchString) throws SQLException {
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		List<Film> filmList = new ArrayList<Film>();
+		List<Actor> aL = null;
+		Film film = null;
+
+
+		String sql = "SELECT * FROM film " + " WHERE description LIKE ? OR " + " title LIKE ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + searchString + "%");
+		stmt.setString(2, "%" + searchString + "%");
+
+//		System.out.println(stmt);
+		ResultSet rs = stmt.executeQuery();
+
+		while (rs.next()) {
+			film = new Film();
+			film.setiD(rs.getInt("id"));
+			film.setDescription(rs.getString("description"));
+			film.setLanguageId(rs.getInt("language_id"));
+			film.setLength(rs.getInt("length"));
+			film.setRating(rs.getString("rating"));
+			film.setReleaseYear(rs.getInt("release_year"));
+			film.setRentalDuration(rs.getInt("rental_duration"));
+			film.setRentalRate(rs.getDouble("rental_rate"));
+			film.setReplacementCost(rs.getDouble("replacement_cost"));
+			film.setSpecialFeatures(rs.getString("special_features"));
+			film.setTitle(rs.getString("title"));
+			film.setLanguageName(findLanguageById(film.getLanguageId()));
+			aL = findActorsByFilmId(film.getiD());
+			film.setActorList(aL);
+			filmList.add(film);
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return filmList;
+	}
+
+	@Override
+	public String findLanguageById(int langId) throws SQLException {
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String language = null;
+		
+		String sql = "SELECT * FROM language "
+				+ " WHERE id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, langId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+		language = rs.getString("name");
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return language;
 	}
 
 }

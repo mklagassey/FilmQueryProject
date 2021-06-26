@@ -14,6 +14,7 @@ public class Film {
 	private double replacementCost;
 	private String rating;
 	private String specialFeatures;
+	private String languageName;
 	private List<Actor> actorList;
 	
 	
@@ -21,9 +22,12 @@ public class Film {
 	public Film() {
 	}
 
+	
+
+
 	public Film(int iD, String title, String description, Integer releaseYear, int languageId, int rentalDuration,
 			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
-			List<Actor> actorList) {
+			String languageName, List<Actor> actorList) {
 		super();
 		this.iD = iD;
 		this.title = title;
@@ -36,13 +40,13 @@ public class Film {
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
+		this.languageName = languageName;
 		this.actorList = actorList;
 	}
 
 
 
-	
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -68,6 +72,8 @@ public class Film {
 		builder.append(rating);
 		builder.append(", specialFeatures=");
 		builder.append(specialFeatures);
+		builder.append(", languageName=");
+		builder.append(languageName);
 		builder.append(", actorList=");
 		builder.append(actorList);
 		builder.append("]");
@@ -81,6 +87,10 @@ public class Film {
 		this.iD = iD;
 	}
 	public String getTitle() {
+		String fixedTitle = null;
+		
+//		fixedTitle = 
+		
 		return title;
 	}
 	public void setTitle(String title) {
@@ -146,13 +156,20 @@ public class Film {
 	public void setActorList(List<Actor> actorList) {
 		this.actorList = actorList;
 	}
+	public String getLanguageName() {
+		return languageName;
+	}
+	public void setLanguageName(String languageName) {
+		this.languageName = languageName;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + iD;
-		result = prime * result + languageId;
+		result = prime * result + ((languageName == null) ? 0 : languageName.hashCode());
+		result = prime * result + ((releaseYear == null) ? 0 : releaseYear.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -168,7 +185,15 @@ public class Film {
 		Film other = (Film) obj;
 		if (iD != other.iD)
 			return false;
-		if (languageId != other.languageId)
+		if (languageName == null) {
+			if (other.languageName != null)
+				return false;
+		} else if (!languageName.equals(other.languageName))
+			return false;
+		if (releaseYear == null) {
+			if (other.releaseYear != null)
+				return false;
+		} else if (!releaseYear.equals(other.releaseYear))
 			return false;
 		if (title == null) {
 			if (other.title != null)
@@ -179,7 +204,11 @@ public class Film {
 	}
 
 	
-	
+//	private String fixString(String sIn) {
+//		
+//		
+//		
+//	}
 	
 	
 }

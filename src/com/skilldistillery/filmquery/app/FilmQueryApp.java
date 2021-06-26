@@ -56,10 +56,15 @@ public class FilmQueryApp {
 			displayFilm(film);
 			break;
 		case 2:
-
+			System.out.println("Please enter your search criteria ------");
+			String searchFor = input.next();
+			List<Film> foundFilms = db.findFilmsBySearchString(searchFor);
+			for (Film film2 : foundFilms) {
+				displayFilm(film2);
+			}
 			break;
 		case 3:
-			System.out.println("Thanks for using FILM-O-MATIC, come back soon!");
+			System.out.println("Thanks for using CIN-O-MATIC, come back soon!");
 			keepGoing = false;
 			break;
 
@@ -74,8 +79,23 @@ public class FilmQueryApp {
 
 	private void displayFilm(Film f) {
 		if (f != null) {
-			System.out.println(f.getTitle() + " " + f.getReleaseYear() + " " + f.getRating() + " " + f.getDescription());
-			
+			System.out.println("TITLE: " + f.getTitle() + " " + 
+					"LANGUAGE: " + f.getLanguageName()+ " " +
+					"RELEASED: " + f.getReleaseYear() + " " + 
+					"RATED: " + f.getRating() + "\n " + 
+					"----> DESCRIPTION: " + f.getDescription()
+					);
+			System.out.println("CAST: ");
+			for (int i = 0 ; i < f.getActorList().size() ; i++) {
+				Actor actor = f.getActorList().get(i);
+				if (i < f.getActorList().size() - 1) {
+					System.out.print(actor.getFirstName() + " " + actor.getLastName() + ", ");
+				} else {
+					System.out.print(actor.getFirstName() + " " + actor.getLastName());
+					System.out.println();
+				}
+//				System.out.println();
+			}
 		} else {
 			System.out.println("Sorry, that film does not appear in our database. Please try again.");
 		}
