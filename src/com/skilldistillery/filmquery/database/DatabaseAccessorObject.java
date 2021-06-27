@@ -56,6 +56,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setTitle(rs.getString("title"));
 			film.setLanguageName(findLanguageById(film.getLanguageId()));
 			film.setActorList(aL);
+			film.setCategory(findCategoryById(filmId));
 		}
 		rs.close();
 		stmt.close();
@@ -148,6 +149,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			aL = findActorsByFilmId(film.getiD());
 			film.setActorList(aL);
 			filmList.add(film);
+			film.setCategory(findCategoryById(film.getiD()));
+
 		}
 		rs.close();
 		stmt.close();
@@ -175,5 +178,27 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return language;
 	}
+
+	@Override
+	public String findCategoryById(int filmId) throws SQLException {
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String category = null;
+		
+		String sql = "SELECT name FROM category JOIN film_category on category.id = film_category.category_id "
+				+ " WHERE film_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+		category = rs.getString("name");
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return category;
+	}
+	
+	
 
 }

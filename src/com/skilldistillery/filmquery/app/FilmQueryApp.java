@@ -131,23 +131,13 @@ public class FilmQueryApp {
 				keepGoing = false;
 				break;
 			default:
-				System.out.println("Invalid number, please choose either 1 or 2.");
+				System.out.println("Invalid number, please choose either 1, 2 or 3.");
 				break;
 			}
 		}
-
-//		if (choice == 1) {
-//			System.out.println(f);
-//		} else if (choice == 3) {
-//			keepGoing = false;
-//		} else {
-//			System.out.println("Invalid number, please choose either 1 or 2.");
-//		}
 
 		return keepGoing;
 
 	}
 
 }
-
-// stuff

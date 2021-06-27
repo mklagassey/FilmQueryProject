@@ -15,6 +15,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private String languageName;
+	private String category;
 	private List<Actor> actorList;
 	
 	
@@ -22,12 +23,9 @@ public class Film {
 	public Film() {
 	}
 
-	
-
-
 	public Film(int iD, String title, String description, Integer releaseYear, int languageId, int rentalDuration,
 			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
-			String languageName, List<Actor> actorList) {
+			String languageName, String category, List<Actor> actorList) {
 		super();
 		this.iD = iD;
 		this.title = title;
@@ -41,11 +39,9 @@ public class Film {
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
 		this.languageName = languageName;
+		this.category = category;
 		this.actorList = actorList;
 	}
-
-
-
 
 	@Override
 	public String toString() {
@@ -54,6 +50,8 @@ public class Film {
 		builder.append(iD);
 		builder.append(", title = ");
 		builder.append(title);
+		builder.append(", category = ");
+		builder.append(category);
 		builder.append(", description = ");
 		builder.append(description);
 		builder.append(", release year = ");
@@ -162,6 +160,12 @@ public class Film {
 	public void setLanguageName(String languageName) {
 		this.languageName = languageName;
 	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	@Override
 	public int hashCode() {
@@ -202,6 +206,8 @@ public class Film {
 			return false;
 		return true;
 	}
+
+
 
 	
 //	private String fixString(String sIn) {
