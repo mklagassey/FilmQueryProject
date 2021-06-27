@@ -17,15 +17,18 @@ public class Film {
 	private String languageName;
 	private String category;
 	private List<Actor> actorList;
+	private List<InventoryItem> inventoryList;
 	
 	
 	
 	public Film() {
 	}
 
+	
+
 	public Film(int iD, String title, String description, Integer releaseYear, int languageId, int rentalDuration,
 			double rentalRate, Integer length, double replacementCost, String rating, String specialFeatures,
-			String languageName, String category, List<Actor> actorList) {
+			String languageName, String category, List<Actor> actorList, List<InventoryItem> inventoryList) {
 		super();
 		this.iD = iD;
 		this.title = title;
@@ -41,7 +44,10 @@ public class Film {
 		this.languageName = languageName;
 		this.category = category;
 		this.actorList = actorList;
+		this.inventoryList = inventoryList;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -74,6 +80,8 @@ public class Film {
 		builder.append(languageName);
 		builder.append(", actor list = ");
 		builder.append(actorList);
+		builder.append(", inventory list = ");
+		builder.append(inventoryList);
 		builder.append(" ]");
 		return builder.toString();
 	}
@@ -85,7 +93,7 @@ public class Film {
 		this.iD = iD;
 	}
 	public String getTitle() {
-		String fixedTitle = null;
+//		String fixedTitle = null;
 		
 //		fixedTitle = 
 		
@@ -166,6 +174,12 @@ public class Film {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public List<InventoryItem> getInventoryList() {
+		return inventoryList;
+	}
+	public void setInventoryList(List<InventoryItem> inventoryList) {
+		this.inventoryList = inventoryList;
+	}
 
 	@Override
 	public int hashCode() {
@@ -206,6 +220,7 @@ public class Film {
 			return false;
 		return true;
 	}
+
 
 
 

@@ -19,16 +19,16 @@ public class FilmQueryApp {
 		app.launch();
 	}
 
-	private void test() throws SQLException {
-		Film film = db.findFilmById(0);
-		System.out.println(film);
+//	private void test() throws SQLException {
+//		Film film = db.findFilmById(0);
+//		System.out.println(film);
 //    Actor actor = db.findActorById(1);
 //    System.out.println(actor);
 //    List<Actor> actorList = db.findActorsByFilmId(1);
 //    for (Actor actor : actorList) {
 //		System.out.println(actor);
 //	}
-	}
+//	}
 
 	private void launch() throws SQLException {
 		Scanner input = new Scanner(System.in);

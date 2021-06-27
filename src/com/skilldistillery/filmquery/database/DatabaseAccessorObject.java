@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
+import com.skilldistillery.filmquery.entities.InventoryItem;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
 	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
@@ -31,6 +32,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 
 		List<Actor> aL = findActorsByFilmId(filmId);
+		List<InventoryItem> invL = findInventoryByFilmId(filmId);
 
 		// THE COLUMNS AFTER SELECT ARE THE ONLY ONES WE CAN USE LATER, TRY * TO GET ALL
 		// OF THE AVAILABLE COLUMNS
@@ -56,6 +58,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setTitle(rs.getString("title"));
 			film.setLanguageName(findLanguageById(film.getLanguageId()));
 			film.setActorList(aL);
+			film.setInventoryList(invL);
 			film.setCategory(findCategoryById(filmId));
 		}
 		rs.close();
@@ -120,6 +123,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Film> findFilmsBySearchString(String searchString) throws SQLException {
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 		List<Film> filmList = new ArrayList<Film>();
+		List<InventoryItem> invL = null;
 		List<Actor> aL = null;
 		Film film = null;
 
@@ -148,6 +152,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setLanguageName(findLanguageById(film.getLanguageId()));
 			aL = findActorsByFilmId(film.getiD());
 			film.setActorList(aL);
+			invL = findInventoryByFilmId(film.getiD());
+			film.setInventoryList(invL);
 			filmList.add(film);
 			film.setCategory(findCategoryById(film.getiD()));
 
@@ -197,6 +203,27 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		conn.close();
 
 		return category;
+	}
+
+	@Override
+	public List<InventoryItem> findInventoryByFilmId(int filmId) throws SQLException {
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		List<InventoryItem> inventoryList = new ArrayList<>();
+
+		String sql = "SELECT * FROM inventory_item JOIN film ON inventory_item.film_id = film.id "
+				+ " WHERE film.id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			InventoryItem item = new InventoryItem(rs.getInt("id"), rs.getInt("film_id"), rs.getInt("store_id"), rs.getString("media_condition"), rs.getString("last_update"));
+			inventoryList.add(item);
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return inventoryList;
 	}
 	
 	
