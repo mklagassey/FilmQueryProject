@@ -40,16 +40,19 @@ public class FilmQueryApp {
 
 	private void startUserInterface(Scanner input) throws SQLException {
 		boolean keepGoing = true;
+		boolean nextFilm = true;
+		String userYorN = "y";
+		int userNum;
 
 		do {
-			int userChoice;
+			System.out.println("~~~ CIN-O-MATIC MAIN MENU ~~~");
 			System.out.println();
 			System.out.println("Please choose an option: \n" + "1) Look up film by id\n"
 					+ "2) Look up film by keyword search\n" + "3) Exit");
 
-			userChoice = input.nextInt();
+			userNum = input.nextInt();
 
-			switch (userChoice) {
+			switch (userNum) {
 			case 1:
 				System.out.println("Please enter film's unique ID # -----");
 				int idNum = input.nextInt();
@@ -60,15 +63,24 @@ public class FilmQueryApp {
 				System.out.println("Please enter your search criteria ------");
 				String searchFor = input.next();
 				List<Film> foundFilms = db.findFilmsBySearchString(searchFor);
-				for (Film film2 : foundFilms) {
-					displayFilm(film2, input);
+				if (foundFilms.size() > 10) {
+					System.out.println("Your search returned more than 10 films, would you like to continue? (Y/N)");
+					userYorN = input.next();
+				}
+				if (userYorN.toLowerCase().contains("y")) {
+
+					for (Film film2 : foundFilms) {
+						nextFilm = displayFilm(film2, input);
+						if (!nextFilm) {
+							break;
+						}
+					}
 				}
 				break;
 			case 3:
 				System.out.println("Thanks for using CIN-O-MATIC, come back soon!");
 				keepGoing = false;
 				break;
-
 			default:
 				System.out.println("Sorry, try again. That number is invalid.");
 				break;
@@ -77,9 +89,10 @@ public class FilmQueryApp {
 
 	}
 
-	private void displayFilm(Film f, Scanner in) {
+	private boolean displayFilm(Film f, Scanner in) {
+		boolean filmResult = true;
 		boolean keepGoing = true;
-		
+
 		System.out.println();
 		if (f != null) {
 			System.out.println("TITLE: " + f.getTitle() + "\n" + "LANGUAGE: " + f.getLanguageName() + " " + "RELEASED: "
@@ -95,25 +108,44 @@ public class FilmQueryApp {
 					System.out.println();
 				}
 			}
-			
+
 		} else {
 			System.out.println("Sorry, that film does not appear in our database. Please try again.");
+			filmResult = false;
 		}
-		while (keepGoing) {
-			System.out.println("Would you like to:\n"
-					+ "1) See film details\n"
-					+ "2) Return to main menu");
+
+		while (filmResult && keepGoing) {
+
+			System.out.println("Would you like to:\n" + "1) See film details\n" + "2) Go to next film result\n"
+					+ "3) Return to main menu");
 			int choice = in.nextInt();
-			
-			if (choice == 1) {
+
+			switch (choice) {
+			case 1:
 				System.out.println(f);
-			} else if (choice == 2) {
+				break;
+			case 2:
+				filmResult = false;
+				break;
+			case 3:
 				keepGoing = false;
-			} else {
+				break;
+			default:
 				System.out.println("Invalid number, please choose either 1 or 2.");
+				break;
 			}
-		
-		};
+		}
+
+//		if (choice == 1) {
+//			System.out.println(f);
+//		} else if (choice == 3) {
+//			keepGoing = false;
+//		} else {
+//			System.out.println("Invalid number, please choose either 1 or 2.");
+//		}
+
+		return keepGoing;
+
 	}
 
 }
